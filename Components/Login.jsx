@@ -1,7 +1,9 @@
 import React from "react";
 import { useState } from "react";
-import { View, Text, TextInput, StyleSheet, TouchableOpacity } from "react-native";
+import { Alert, View, Text, TextInput, StyleSheet, TouchableOpacity } from "react-native";
 import { widthPercentageToDP as wp } from 'react-native-responsive-screen';
+import { useNavigation } from '@react-navigation/native';
+
 
 
 const styles = StyleSheet.create({
@@ -39,38 +41,46 @@ const styles = StyleSheet.create({
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const navigation = useNavigation();
 
-    const handleEmail = (e) => {
-        setEmail(e.target.value);
+    const handleEmail = (text) => {
+        setEmail(text);
     }
-    const handlePassword = (e) => {
-        setPassword(e.target.value);
+    const handlePassword = (text) => {
+        setPassword(text);
     }
 
     const handleLogin = () => {
         console.log(email, password);
+        if (email === "sergio" && password === "1234") {
+            navigation.navigate('Camera'); //vamos a pantalla Camera
+        } else {
+            Alert.alert("Credenciales inválidas")
+            setEmail('');
+            setPassword('');
+        }
     }
 
-    return(
+    return (
         <View style={styles.container}>
             <Text style={styles.title}>Pantalla de acceso</Text>
-            <TextInput 
+            <TextInput
                 placeholder="Introduce tu email"
                 keyboardType="email-address" // teclado adaptado a la entrada de correo electrónico
-                onChange={handleEmail}
+                onChangeText={handleEmail}
                 value={email}
                 style={styles.input}
             />
 
-            <TextInput 
+            <TextInput
                 placeholder="Introduce tu password"
                 secureTextEntry={true}
-                onChange={handlePassword}
+                onChangeText={handlePassword}
                 value={password}
                 style={styles.input}
             />
 
-            <TouchableOpacity 
+            <TouchableOpacity
                 onPress={() => handleLogin()}
                 style={styles.button}
             >
